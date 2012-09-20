@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoForAndroidApplication", "MonoForAndroidApplication\MonoForAndroidApplication.csproj", "{741D57C0-2DBD-487B-A370-83CF78636AB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoForIPhone", "MonoForIPhone\MonoForIPhone.csproj", "{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+		Release|iPhone = Release|iPhone
+		Ad-Hoc|iPhone = Ad-Hoc|iPhone
+		AppStore|iPhone = AppStore|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{741D57C0-2DBD-487B-A370-83CF78636AB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{741D57C0-2DBD-487B-A370-83CF78636AB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{741D57C0-2DBD-487B-A370-83CF78636AB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{741D57C0-2DBD-487B-A370-83CF78636AB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.Debug|iPhone.Build.0 = Debug|iPhone
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.Release|Any CPU.ActiveCfg = Release|iPhoneSimulator
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.Release|Any CPU.Build.0 = Release|iPhoneSimulator
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.Release|iPhone.ActiveCfg = Release|iPhone
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.Release|iPhone.Build.0 = Release|iPhone
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = MonoForIPhone\MonoForIPhone.csproj
+	EndGlobalSection
+EndGlobal
