@@ -1,0 +1,5 @@
+rootProject.name = "HelloMono"
+include 'android', 'ios'
+
+project(':android').buildFileName = 'android.gradle'
+project(':ios').buildFileName = 'ios.gradle'
