@@ -29,7 +29,7 @@ require 'sim_launcher'
 # which includes calabash framework
 # this is usually the Calabash build configuration
 # of your production target.
-APP_BUNDLE_PATH = "~/projects/HelloMono/MonoForIPhone/bin/iPhoneSimulator/Debug/MonoForIPhone.app"
+APP_BUNDLE_PATH = "bin/iPhoneSimulator/Debug/MonoForIPhone.app"
 #
 
 def reset_app_jail(sdk, app_path)

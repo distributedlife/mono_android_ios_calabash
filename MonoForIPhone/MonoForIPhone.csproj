@@ -23,7 +23,7 @@
     <ConsolePause>False</ConsolePause>
     <MtouchI18n />
     <MtouchArch>ARMv7</MtouchArch>
-    <MtouchExtraArgs>-gcc_flags "-framework CFNetwork -framework CoreGraphics -force_load /Users/rboucher/projects/HelloMono/MonoForIPhone/calabash.framework/calabash -lstdc++"</MtouchExtraArgs>
+    <MtouchExtraArgs>-gcc_flags "-framework CFNetwork -framework CoreGraphics -force_load $(ProjectDir)/calabash.framework/calabash -lstdc++"</MtouchExtraArgs>
     <MtouchLink>None</MtouchLink>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
