@@ -1,0 +1,10 @@
+task start << {
+  //logging.setLevel(LogLevel.INFO)
+  def emulatorTimeoutMillis = 300000
+  //ant.parallel(timeout: emulatorTimeoutMillis, failonany: true) {
+  def proc = "emulator -avd hardware_intl".execute()
+    //ant.waitfor(maxwait: 1, maxwaitunit: 'minute', checkevery: 1, checkeveryunit: 'second') {
+      
+    //}
+ // }
+}
