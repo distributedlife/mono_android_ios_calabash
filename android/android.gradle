@@ -1,10 +1,48 @@
-task start << {
-  //logging.setLevel(LogLevel.INFO)
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+task ensureServerStarted << {
+  def proc = "adb start-server".execute()
+  proc.waitFor()
+}
+
+task startEmulator(dependsOn: "ensureServerStarted") << {
+  logging.setLevel(LogLevel.INFO)
   def emulatorTimeoutMillis = 300000
-  //ant.parallel(timeout: emulatorTimeoutMillis, failonany: true) {
-  def proc = "emulator -avd hardware_intl".execute()
-    //ant.waitfor(maxwait: 1, maxwaitunit: 'minute', checkevery: 1, checkeveryunit: 'second') {
-      
-    //}
- // }
+  ant.parallel(timeout: emulatorTimeoutMillis, failonany: true) {
+    ant.daemons {
+      def sout = new StringBuffer()
+      def serr = new StringBuffer()
+      def proc = "emulator -avd hardware_intel".execute()
+      proc.consumeProcessOutput(sout, serr)
+
+      if (serr != "") {
+        println serr
+      }
+    }
+  }
+}
+
+task waitForEmulatorToStart(dependsOn: 'startEmulator') << {
+  def emulatorIsReady = "package:/system/framework/framework-res.apk"
+
+  def started = false
+  while (!started) {
+    def sout = new StringBuffer()
+    def serr = new StringBuffer()
+    def proc = "adb shell pm path android".execute()
+    proc.consumeProcessOutput(sout, serr)
+    proc.waitFor()
+
+    if (sout.toString().trim() == emulatorIsReady) {
+      started = true
+    } else {
+      sleep(1000)
+    }
+  }
+}
+
+task shutdownEmulator << {
+  def proc = "adb emu kill".execute()
+  proc.waitFor()
 }
