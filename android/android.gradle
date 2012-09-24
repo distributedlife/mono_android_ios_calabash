@@ -1,80 +1,88 @@
 import groovy.io.FileType
 
+def deletePath(path) {
+  def dir = new File(path)
+  dir.deleteDir()
+ }
+
 task clean() << {
-  def paths_to_clean = ['bin', 'obj', 'test_servers']
+  def paths_to_clean = ["${projectDir}/bin", "${projectDir}/obj", "test_servers"]
 
   paths_to_clean.each {
-    def dir = new File(it)
-    dir.deleteDir()
+    deletePath(it)
   }
+}
+
+def findFileByRegexInPath(regex, path) {
+  def dir = new File(path)
+  def file = ""
+
+  dir.traverse(type:FileType.FILES, nameFilter: regex) {
+    file = it
+  }
+  
+  if (!file) {
+    Exception("No file with regex: ${regex} found")
+  }
+
+  file
+}
+
+def runBlocked(command) {
+  run(command, true)
+}
+
+def runAsync(command) {
+  run(command, false)
+}
+
+def run(command, block) {
+  def sout = new StringBuffer()
+  def serr = new StringBuffer()
+  def proc = command.execute()
+  proc.consumeProcessOutput(sout, serr)
+
+  if (block) {
+    proc.waitFor()
+  }
+  println sout
+  println serr
 }
 
 task buildAndSignTestPackage(dependsOn: clean) << {
-  def sout = new StringBuffer()
-  def serr = new StringBuffer()
-  def proc = "xbuild /t:SignAndroidPackage /p:Configuration=Debug".execute()
-  proc.consumeProcessOutput(sout, serr)
-  proc.waitFor()
-  println sout
-  println serr
-}
+  def projectFile = findFileByRegexInPath(~/.*.csproj/, "${projectDir}")
+  def command = "xbuild /t:SignAndroidPackage /p:Configuration=Debug ${projectFile}"
 
-def findSignedApk(path) {
-  def dir = new File(path)
-  def apk = ""
-  dir.traverse(type:FileType.FILES, nameFilter: ~/.*Signed.apk/) {
-    apk = it
-  };
-  
-  if (apk) {
-    return apk
-  } else {
-    throw new Exception("No signed APK found. Have you build and signed the package?")
-  }
+  runBlocked(command)
 }
 
 task runCalabashTests() << {
-  apk = findSignedApk('bin')
-  println apk
-  def sout = new StringBuffer()
-  def serr = new StringBuffer()
-  def proc = "calabash-android run $apk".execute()
-  proc.consumeProcessOutput(sout, serr)
-  proc.waitFor()
-  println sout
-  println serr
+  def apk = findFileByRegexInPath(~/.*Signed.apk/, "${projectDir}/bin")
+  def command = "calabash-android run $apk"
+
+  runBlocked(command)
 }
 
 task ensureServerStarted << {
-  def proc = "adb start-server".execute()
-  proc.waitFor()
+  def command = "adb start-server"
+
+  runBlocked(command)
 }
 
 task startEmulator(dependsOn: "ensureServerStarted") << {
-  logging.setLevel(LogLevel.INFO)
-  def emulatorTimeoutMillis = 300000
-  ant.parallel(timeout: emulatorTimeoutMillis, failonany: true) {
-    ant.daemons {
-      def sout = new StringBuffer()
-      def serr = new StringBuffer()
-      def proc = "emulator -avd hardware_intel".execute()
-      proc.consumeProcessOutput(sout, serr)
-
-      if (serr != "") {
-        println serr
-      }
-    }
-  }
+  def command = "emulator -avd hardware_intel"
+  runAsync(command)
 }
 
 task waitForEmulatorToStart() << {
   def emulatorIsReady = "package:/system/framework/framework-res.apk"
+  def command = "adb shell pm path android"
 
   def started = false
   while (!started) {
     def sout = new StringBuffer()
     def serr = new StringBuffer()
-    def proc = "adb shell pm path android".execute()
+    def proc = command.execute()
     proc.consumeProcessOutput(sout, serr)
     proc.waitFor()
 
@@ -87,8 +95,8 @@ task waitForEmulatorToStart() << {
 }
 
 task shutdownEmulator << {
-  def proc = "adb emu kill".execute()
-  proc.waitFor()
+  def command = "adb emu kill"
+  runBlocked(command)
 }
 
 task doFullBuild << {
