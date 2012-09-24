@@ -1,5 +1,49 @@
-import java.util.regex.Matcher
-import java.util.regex.Pattern
+import groovy.io.FileType
+
+task clean() << {
+  def paths_to_clean = ['bin', 'obj']
+
+  paths_to_clean.each {
+    def dir = new File(it)
+    dir.deleteDir()
+  }
+}
+
+task buildAndSignTestPackage(dependsOn: clean) << {
+  def sout = new StringBuffer()
+  def serr = new StringBuffer()
+  def proc = "xbuild /t:SignAndroidPackage /p:Configuration=Debug".execute()
+  proc.consumeProcessOutput(sout, serr)
+  proc.waitFor()
+  println sout
+  println serr
+}
+
+def findSignedApk(path) {
+  def dir = new File(path)
+  def apk = ""
+  dir.traverse(type:FileType.FILES, nameFilter: ~/.*Signed.apk/) {
+    apk = it
+  };
+  
+  if (apk) {
+    return apk
+  } else {
+    throw new Exception("No signed APK found. Have you build and signed the package?")
+  }
+}
+
+task runCalabashTests() << {
+  apk = findSignedApk('bin')
+  println apk
+  def sout = new StringBuffer()
+  def serr = new StringBuffer()
+  def proc = "calabash-android run $apk".execute()
+  proc.consumeProcessOutput(sout, serr)
+  proc.waitFor()
+  println sout
+  println serr
+}
 
 task ensureServerStarted << {
   def proc = "adb start-server".execute()
@@ -23,7 +67,7 @@ task startEmulator(dependsOn: "ensureServerStarted") << {
   }
 }
 
-task waitForEmulatorToStart(dependsOn: 'startEmulator') << {
+task waitForEmulatorToStart() << {
   def emulatorIsReady = "package:/system/framework/framework-res.apk"
 
   def started = false
@@ -45,4 +89,13 @@ task waitForEmulatorToStart(dependsOn: 'startEmulator') << {
 task shutdownEmulator << {
   def proc = "adb emu kill".execute()
   proc.waitFor()
+}
+
+task doFullBuild << {
+  tasks.startEmulator.execute()
+  tasks.clean.execute()
+  tasks.buildAndSignTestPackage.execute()
+  tasks.waitForEmulatorToStart.execute()
+  tasks.runCalabashTests.execute()
+  tasks.shutdownEmulator.execute()
 }
