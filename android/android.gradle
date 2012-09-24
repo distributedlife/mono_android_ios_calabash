@@ -45,8 +45,9 @@ def run(command, block) {
   if (block) {
     proc.waitFor()
   }
-  println sout
-  println serr
+
+  if (sout) { println sout}
+  if (serr) { println serr}
 }
 
 task buildAndSignTestPackage(dependsOn: clean) << {
@@ -99,11 +100,16 @@ task shutdownEmulator << {
   runBlocked(command)
 }
 
-task doFullBuild << {
-  tasks.startEmulator.execute()
-  tasks.clean.execute()
-  tasks.buildAndSignTestPackage.execute()
-  tasks.waitForEmulatorToStart.execute()
-  tasks.runCalabashTests.execute()
-  tasks.shutdownEmulator.execute()
+task doFullBuild {
+  doFirst {
+    tasks.startEmulator.execute()
+    tasks.clean.execute()
+    tasks.buildAndSignTestPackage.execute()
+    tasks.waitForEmulatorToStart.execute()
+    tasks.runCalabashTests.execute()
+  }
+
+  doLast {
+    tasks.shutdownEmulator.execute()
+  }
 }
