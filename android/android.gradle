@@ -1,7 +1,7 @@
 import groovy.io.FileType
 
 task clean() << {
-  def paths_to_clean = ['bin', 'obj']
+  def paths_to_clean = ['bin', 'obj', 'test_servers']
 
   paths_to_clean.each {
     def dir = new File(it)
