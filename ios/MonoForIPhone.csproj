@@ -25,6 +25,11 @@
     <MtouchArch>ARMv7</MtouchArch>
     <MtouchExtraArgs>-gcc_flags "-framework CFNetwork -framework CoreGraphics -force_load $(ProjectDir)/calabash.framework/calabash -lstdc++"</MtouchExtraArgs>
     <MtouchLink>None</MtouchLink>
+    <EnvironmentVariables>
+      <EnvironmentVariables>
+        <Variable name="DYLD_INSERT_LIBRARIES" value="" />
+      </EnvironmentVariables>
+    </EnvironmentVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>

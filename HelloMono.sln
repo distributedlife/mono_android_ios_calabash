@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoForAndroidApplication", "MonoForAndroidApplication\MonoForAndroidApplication.csproj", "{741D57C0-2DBD-487B-A370-83CF78636AB8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoForAndroidApplication", "android\MonoForAndroidApplication.csproj", "{741D57C0-2DBD-487B-A370-83CF78636AB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoForIPhone", "MonoForIPhone\MonoForIPhone.csproj", "{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoForIPhone", "ios\MonoForIPhone.csproj", "{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +39,6 @@ Global
 		{E89C1590-5927-47A6-BC85-B0A9DCC7C1DB}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = MonoForIPhone\MonoForIPhone.csproj
+		StartupItem = ios\MonoForIPhone.csproj
 	EndGlobalSection
 EndGlobal
